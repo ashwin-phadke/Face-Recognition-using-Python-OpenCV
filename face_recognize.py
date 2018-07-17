@@ -1,5 +1,5 @@
 # facerec.py
-import cv2, sys, numpy, os
+import cv2, sys, numpy, os, smtplib
 size = 4
 haar_file = 'haarcascade_frontalface_default.xml'
 datasets = 'database'
@@ -47,6 +47,23 @@ while True:
 	       cv2.putText(im,'%s - %.0f' % (names[prediction[0]],prediction[1]),(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
     	else:
     	  cv2.putText(im,'not recognized',(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
+          # creates SMTP session
+          s = smtplib.SMTP('smtp.gmail.com', 587)
+ 
+          # start TLS for security
+          s.starttls()
+ 
+          # Authentication
+          s.login("your_email_id", "your_password")
+ 
+          # message to be sent
+          message = ""
+ 
+          # sending the mail
+          s.sendmail("your_email_id", "receiver_email_id", message)
+ 
+          # terminating the session
+          s.quit()
 
     cv2.imshow('OpenCV', im)
     key = cv2.waitKey(10)
